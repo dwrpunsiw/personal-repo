@@ -1,14 +1,27 @@
 import mongoose from "mongoose";
+import { exceptionSchema } from "./exception";
 
 import { KPIDoc, KPIModel, kpiAttrs } from "./types/kpi-types";
 
 const kpiSchema = new mongoose.Schema(
   {
+    requestId: {
+      type: String,
+      required: true,
+    },
     servicename: {
       type: String,
       required: true,
     },
+    version: {
+      type: String,
+      required: true,
+    },
     routes: {
+      type: String,
+      required: true,
+    },
+    operationType: {
       type: String,
       required: true,
     },
@@ -19,6 +32,17 @@ const kpiSchema = new mongoose.Schema(
     description: {
       type: String,
       required: true,
+    },
+    exception: {
+      type: exceptionSchema,
+      default: () => {
+        return {
+          exceptionName: "",
+          exceptionDescription: "",
+          exceptionCode: "",
+          exceptionStatus: "",
+        };
+      },
     },
   },
   {

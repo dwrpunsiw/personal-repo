@@ -7,6 +7,7 @@ import cors from "cors";
 
 // Import modules
 import homeRoutes from "./routes/home";
+import authRoutes from "./routes/auth";
 import notFoundRoutes from "./routes/not-found";
 import { errorHandler } from "./middlewares/error-handler";
 
@@ -18,6 +19,7 @@ app.use(cors());
 
 // Routes
 app.use("/api", homeRoutes);
+app.use(authRoutes);
 
 // Not found routes
 app.use(notFoundRoutes);

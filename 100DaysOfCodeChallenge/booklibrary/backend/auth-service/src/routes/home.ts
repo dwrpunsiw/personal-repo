@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 
 const router = express.Router();
 
-router.get("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   res.json({
     title: "Auth Service",
     description:

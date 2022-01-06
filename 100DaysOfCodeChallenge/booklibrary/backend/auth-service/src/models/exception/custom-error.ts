@@ -1,3 +1,4 @@
+import { Type } from "typescript";
 import { Completion } from "../enums/completion";
 
 export abstract class CustomError extends Error {
@@ -13,6 +14,6 @@ export abstract class CustomError extends Error {
     status: Completion;
     code: number;
     message: string;
-    field?: string;
+    field?: any;
   };
 }
