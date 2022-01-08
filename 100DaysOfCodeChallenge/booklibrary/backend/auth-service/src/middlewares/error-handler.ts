@@ -15,7 +15,7 @@ export const errorHandler = (
     return res.status(error.statusCode).send(error.generateErrors());
   }
 
-  console.error(`[AUTH SERVICE][GENERATE ERROR][UNEXPECTED ERROR]`);
+  console.error(red(`[AUTH SERVICE][GENERATE ERROR][UNEXPECTED ERROR]`));
 
   res.status(400).send({
     errors: [

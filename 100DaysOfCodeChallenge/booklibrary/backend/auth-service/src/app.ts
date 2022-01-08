@@ -4,6 +4,7 @@ import "dotenv/config";
 import express from "express";
 import { json } from "body-parser";
 import cors from "cors";
+import cookieSession from "cookie-session";
 
 // Import modules
 import homeRoutes from "./routes/home";
@@ -14,8 +15,22 @@ import { errorHandler } from "./middlewares/error-handler";
 // Initialize express
 const app = express();
 
+app.set("trust proxy", true); // trust first proxy
+
 app.use(json());
 app.use(cors());
+
+app.use(
+  cookieSession({
+    name: "session",
+    keys: [
+      process.env.SESSION_KEY1! as string,
+      process.env.SESSION_KEY2! as string,
+    ],
+    signed: true,
+    secure: process.env.NODE_ENV !== "Development",
+  })
+);
 
 // Routes
 app.use("/api", homeRoutes);
