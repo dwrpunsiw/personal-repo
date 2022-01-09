@@ -1,4 +1,8 @@
-import { signinValidations, signupValidations } from "./../validations/auth";
+import {
+  signinValidations,
+  signoutValidations,
+  signupValidations,
+} from "./../validations/auth";
 import { validateRequest } from "./../middlewares/validate-request";
 
 // Import Dependency
@@ -16,7 +20,7 @@ const router = express.Router();
 
 router.post("/api/auth/signup", signupValidations, validateRequest, signup);
 router.post("/api/auth/signin", signinValidations, validateRequest, signin);
-router.post("/api/auth/signout", signout);
+router.post("/api/auth/signout", signoutValidations, validateRequest, signout);
 router.post("/api/auth/authenticate", authenticate);
 
 export default router;

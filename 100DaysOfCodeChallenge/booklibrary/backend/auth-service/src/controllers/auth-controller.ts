@@ -13,19 +13,26 @@ import { verifyHashedPassword } from "../helpers/encrypt";
 import { InvalidCredentialsError } from "../models/exception/invalid-credentials-error";
 import { VerifyTokenError } from "../models/exception/verify-token-error";
 import { ConflictDataError } from "../models/exception/conflict-data-error";
+import { userAttrs } from "../models/schema/types/user-types";
 
 export const signup = async (req: Request, res: Response) => {
   const requestId = req.headers.requestid as string;
 
-  const { username, password, email, firstname, lastname, birthdate } =
-    req.body;
+  const {
+    username,
+    password,
+    email,
+    firstname,
+    lastname,
+    birthdate,
+  }: userAttrs = req.body;
 
   console.log(
     green(`[AUTH SERVICE][REQUEST RECEIVED][REQUEST ID ${requestId}]`)
   );
 
   console.log(green(`[AUTH SERVICE][GET USER][CHECKING EXISTING USER]`));
-  const existingUser = await User.findOne({ username: username });
+  const existingUser = await User.findOne({ username: username.toLowerCase() });
 
   if (existingUser) {
     console.log(red(`[AUTH SERVICE][GET USER][USER ALREADY EXISTS]`));
@@ -33,11 +40,11 @@ export const signup = async (req: Request, res: Response) => {
   }
 
   const newUser = {
-    username,
+    username: username.toLowerCase(),
     password,
     email,
-    firstname,
-    lastname,
+    firstname: firstname.toLowerCase(),
+    lastname: lastname?.toLowerCase(),
     birthdate,
   };
 

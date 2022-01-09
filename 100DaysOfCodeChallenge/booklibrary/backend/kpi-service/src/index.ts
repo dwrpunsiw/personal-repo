@@ -21,7 +21,11 @@ const startApplication = async () => {
   }
 
   app.listen(port, () => {
-    console.log(`This server is running on port ${port}`);
+    console.log(
+      green(
+        `[KPI SERVICE][START][KPI SERVICE IS UP AND RUNNING ON PORT ${port}]`
+      )
+    );
   });
 };
 
