@@ -18,6 +18,10 @@ export const insertKpi = async (req: Request, res: Response) => {
     exception,
   } = req.body;
 
+  console.log(
+    green(`[KPI SERVICE][REQUEST RECEIVED][REQUEST ID ${requestId}]`)
+  );
+
   const newKpi = {
     requestId,
     servicename,
@@ -32,19 +36,13 @@ export const insertKpi = async (req: Request, res: Response) => {
   const kpi = Kpi.build(newKpi);
 
   try {
+    console.log(green(`[KPI SERVICE][SAVING KPI][START]`));
     await kpi.save();
+    console.log(green(`[KPI SERVICE][SAVING KPI][SUCCESSFULLY SAVE KPI]`));
   } catch (error) {
-    red(
-      `[KPI SERVICE][INSERT DOCUMENT][UNSUCCESSFULLY INSERT DOCUMENT TO MONGODB]`
-    );
+    red(`[KPI SERVICE][SAVING KPI][UNSUCCESSFULLY SAVING KPI]`);
     throw new DatabaseInsertionError(kpi);
   }
-
-  console.log(
-    green(
-      `[KPI SERVICE][INSERT DOCUMENT][SUCCESSFULLY INSERT DOCUMENT TO MONGODB]`
-    )
-  );
 
   const response = new GenericResponse(
     Completion.Success,

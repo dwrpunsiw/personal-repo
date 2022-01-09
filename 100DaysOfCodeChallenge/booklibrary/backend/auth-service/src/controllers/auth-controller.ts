@@ -12,6 +12,7 @@ import { DatabaseNotFoundError } from "../models/exception/database-not-found-er
 import { verifyHashedPassword } from "../helpers/encrypt";
 import { InvalidCredentialsError } from "../models/exception/invalid-credentials-error";
 import { VerifyTokenError } from "../models/exception/verify-token-error";
+import { ConflictDataError } from "../models/exception/conflict-data-error";
 
 export const signup = async (req: Request, res: Response) => {
   const requestId = req.headers.requestid as string;
@@ -22,6 +23,14 @@ export const signup = async (req: Request, res: Response) => {
   console.log(
     green(`[AUTH SERVICE][REQUEST RECEIVED][REQUEST ID ${requestId}]`)
   );
+
+  console.log(green(`[AUTH SERVICE][GET USER][CHECKING EXISTING USER]`));
+  const existingUser = await User.findOne({ username: username });
+
+  if (existingUser) {
+    console.log(red(`[AUTH SERVICE][GET USER][USER ALREADY EXISTS]`));
+    throw new ConflictDataError("Corresponding username not found");
+  }
 
   const newUser = {
     username,
@@ -35,13 +44,13 @@ export const signup = async (req: Request, res: Response) => {
   const user = User.build(newUser);
 
   try {
+    console.log(green(`[AUTH SERVICE][SAVING USER][START]`));
     await user.save();
-  } catch (error) {
     console.log(
-      red(
-        `[AUTH SERVICE][INSERT DOCUMENT][UNSUCCESSFULLY INSERT DOCUMENT TO MONGODB]`
-      )
+      green(`[AUTH SERVICE][SAVING USER][SUCCESSFULLY SAVING NEW USER]`)
     );
+  } catch (error) {
+    console.log(red(`[AUTH SERVICE][SAVING USER][UNSUCCESSFULLY SAVING USER]`));
 
     const newKpi = constructKpiPayload(
       requestId,
@@ -58,9 +67,14 @@ export const signup = async (req: Request, res: Response) => {
     );
 
     try {
+      console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
       insertKpi(newKpi);
+      console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
     } catch (error) {
       if (error instanceof ServiceCallError) {
+        console.log(
+          red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`)
+        );
         throw error;
       }
     }
@@ -68,14 +82,9 @@ export const signup = async (req: Request, res: Response) => {
     throw new DatabaseInsertionError(user);
   }
 
-  console.log(
-    green(
-      `[AUTH SERVICE][INSERT DOCUMENT][SUCCESSFULLY INSERT DOCUMENT TO MONGODB]`
-    )
-  );
+  const userJwt = jwt.sign(user.toJSON(), process.env.JWT_SECRET!);
 
-  const userJwt = await jwt.sign(user.toJSON(), process.env.JWT_SECRET!);
-
+  // Store it on session object
   req.session = {
     authlib: userJwt,
   };
@@ -89,9 +98,12 @@ export const signup = async (req: Request, res: Response) => {
   );
 
   try {
+    console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
     insertKpi(newKpi);
+    console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
   } catch (error) {
     if (error instanceof ServiceCallError) {
+      console.log(red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`));
       throw error;
     }
   }
@@ -224,9 +236,12 @@ export const signout = async (req: Request, res: Response) => {
   );
 
   try {
+    console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
     insertKpi(newKpi);
+    console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
   } catch (error) {
     if (error instanceof ServiceCallError) {
+      console.log(red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`));
       throw error;
     }
   }
@@ -240,11 +255,9 @@ export const authenticate = async (req: Request, res: Response) => {
     green(`[AUTH SERVICE][REQUEST RECEIVED][REQUEST ID ${requestId}]`)
   );
 
-  let payload;
-
   try {
     console.log(green(`[AUTH SERVICE][AUTHENTICATE][START]`));
-    payload = jwt.verify(req.session?.authlib, process.env.JWT_SECRET!);
+    const payload = jwt.verify(req.session?.authlib, process.env.JWT_SECRET!);
   } catch (error) {
     console.log(red(`[AUTH SERVICE][AUTHENTICATE][TOKEN NOT VALID]`));
     const newKpi = constructKpiPayload(
@@ -262,9 +275,14 @@ export const authenticate = async (req: Request, res: Response) => {
     );
 
     try {
+      console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
       insertKpi(newKpi);
+      console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
     } catch (error) {
       if (error instanceof ServiceCallError) {
+        console.log(
+          red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`)
+        );
         throw error;
       }
     }
@@ -280,9 +298,12 @@ export const authenticate = async (req: Request, res: Response) => {
   );
 
   try {
+    console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
     insertKpi(newKpi);
+    console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
   } catch (error) {
     if (error instanceof ServiceCallError) {
+      console.log(red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`));
       throw error;
     }
   }
@@ -290,8 +311,7 @@ export const authenticate = async (req: Request, res: Response) => {
   const response = new GenericResponse(
     Completion.Success,
     200,
-    "Successfully authenticate user",
-    payload
+    "Successfully authenticate user"
   );
 
   res.status(response.code).send(response);

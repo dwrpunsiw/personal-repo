@@ -22,13 +22,8 @@ app.use(cors());
 
 app.use(
   cookieSession({
-    name: "session",
-    keys: [
-      process.env.SESSION_KEY1! as string,
-      process.env.SESSION_KEY2! as string,
-    ],
-    signed: true,
-    secure: process.env.NODE_ENV !== "Development",
+    signed: false,
+    secure: process.env.NODE_ENV !== "test",
   })
 );
 

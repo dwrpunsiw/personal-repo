@@ -1,3 +1,4 @@
+import { Type } from "typescript";
 import { Completion } from "../enums/completion";
 import { CustomError } from "./custom-error";
 

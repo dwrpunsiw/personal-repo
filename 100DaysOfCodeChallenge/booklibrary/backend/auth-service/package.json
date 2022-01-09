@@ -7,6 +7,13 @@
     "dev": "ts-node-dev src/index.ts",
     "test": "jest --watchAll --no-cache"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
+  },
   "author": "Wisnu Prasojo Widianto",
   "license": "ISC",
   "dependencies": {
@@ -33,7 +40,7 @@
   "devDependencies": {
     "@types/jest": "^27.4.0",
     "@types/supertest": "^2.0.11",
-    "jest": "^27.4.5",
+    "jest": "^27.4.7",
     "mongodb-memory-server": "^8.1.0",
     "supertest": "^6.1.6",
     "ts-jest": "^27.1.2"
