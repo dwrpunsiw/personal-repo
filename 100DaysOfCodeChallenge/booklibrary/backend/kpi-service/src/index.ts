@@ -7,6 +7,7 @@ import { DatabaseConnectionError } from "./models/exception/database-connection-
 const port = process.env.SERVICE_PORT || 3001;
 
 const startApplication = async () => {
+  const startTime = new Date();
   try {
     await connectDatabase();
     console.log(
@@ -21,9 +22,11 @@ const startApplication = async () => {
   }
 
   app.listen(port, () => {
+    const endTime = new Date();
+    const startUpTIme = endTime.getTime() - startTime.getTime();
     console.log(
       green(
-        `[KPI SERVICE][START][KPI SERVICE IS UP AND RUNNING ON PORT ${port}]`
+        `[KPI SERVICE][START][KPI SERVICE IS UP AND RUNNING ON PORT ${port}][START UP TIME ${startUpTIme} ms]`
       )
     );
   });

@@ -1,11 +1,5 @@
 import mongoose from "mongoose";
 
-import {
-  ExceptionDoc,
-  ExceptionModel,
-  exceptionAttrs,
-} from "./types/exception-types";
-
 const exceptionSchema = new mongoose.Schema(
   {
     exceptionName: {

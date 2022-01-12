@@ -1,7 +1,10 @@
 import { validateRequest } from "./../middlewares/validate-request";
 import express from "express";
-import { checkUsername } from "../controllers/user-controller";
-import { checkUsernameValidations } from "../validations/user-validations";
+import { checkUsername, updateUser } from "../controllers/user-controller";
+import {
+  checkUsernameValidations,
+  userValidations,
+} from "../validations/user-validations";
 
 const router = express.Router();
 
@@ -10,6 +13,13 @@ router.get(
   checkUsernameValidations,
   validateRequest,
   checkUsername
+);
+
+router.post(
+  "/api/user/update-profile",
+  userValidations,
+  validateRequest,
+  updateUser
 );
 
 export default router;

@@ -32,6 +32,10 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    lastSignin: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
@@ -57,4 +61,4 @@ UserSchema.statics.build = (attrs: userAttrs) => {
 
 const User = mongoose.model<UserDoc, UserModel>("User", UserSchema);
 
-export { User };
+export { User, UserSchema };

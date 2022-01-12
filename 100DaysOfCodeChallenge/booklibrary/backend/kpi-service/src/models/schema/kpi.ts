@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-import { exceptionSchema } from "./exception";
-
 import { KPIDoc, KPIModel, kpiAttrs } from "./types/kpi-types";
+import { exceptionSchema } from "./exception";
 
 const kpiSchema = new mongoose.Schema(
   {
@@ -18,6 +17,10 @@ const kpiSchema = new mongoose.Schema(
       required: true,
     },
     routes: {
+      type: String,
+      required: true,
+    },
+    touchPoint: {
       type: String,
       required: true,
     },

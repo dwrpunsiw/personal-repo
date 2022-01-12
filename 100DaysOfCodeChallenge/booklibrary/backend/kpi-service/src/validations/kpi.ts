@@ -5,6 +5,7 @@ export const kpiValidations = [
   body("servicename").notEmpty().withMessage("Service name must be provided"),
   body("version").notEmpty().withMessage("Version must be provided"),
   body("routes").notEmpty().withMessage("Routes must be provided"),
+  body("touchPoint").notEmpty().withMessage("Request Id must not be empty"),
   body("operationType")
     .notEmpty()
     .withMessage("Operation type must be provided"),

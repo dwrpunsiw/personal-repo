@@ -6,6 +6,7 @@ import { green, red } from "colors";
 const port = process.env.AUTH_SERVICE_PORT || 3000;
 
 const startApplication = async () => {
+  const startTime = new Date();
   try {
     await connectDatabase();
     console.log(
@@ -19,9 +20,11 @@ const startApplication = async () => {
     process.exit();
   }
   app.listen(port, () => {
+    const endTime = new Date();
+    const startUpTIme = endTime.getTime() - startTime.getTime();
     console.log(
       green(
-        `[AUTH SERVICE][START][AUTH SERVICE IS UP AND RUNNING ON PORT ${port}]`
+        `[AUTH SERVICE][START][AUTH SERVICE IS UP AND RUNNING ON PORT ${port}][START UP TIME ${startUpTIme} ms]`
       )
     );
   });

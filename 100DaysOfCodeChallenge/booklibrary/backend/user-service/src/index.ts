@@ -7,6 +7,7 @@ import { green, red } from "colors";
 const port = process.env.SERVICE_PORT! || 3002;
 
 const startApplication = async () => {
+  const startTime = new Date();
   try {
     await connectDatabase();
     console.log(
@@ -20,9 +21,11 @@ const startApplication = async () => {
     process.exit();
   }
   app.listen(port, () => {
+    const endTime = new Date();
+    const startUpTIme = endTime.getTime() - startTime.getTime();
     console.log(
       green(
-        `[USER SERVICE][START][USER SERVICE IS UP AND RUNNING ON PORT ${port}]`
+        `[USER SERVICE][START][USER SERVICE IS UP AND RUNNING ON PORT ${port}][START UP TIME ${startUpTIme} ms]`
       )
     );
   });

@@ -10,6 +10,7 @@ export interface Kpi {
   servicename: string;
   version: string;
   routes: string;
+  touchPoint: string;
   operationType: string;
   completion: string;
   description: string;

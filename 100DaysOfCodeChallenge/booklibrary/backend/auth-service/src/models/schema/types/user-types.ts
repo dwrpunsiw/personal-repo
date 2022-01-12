@@ -5,9 +5,10 @@ export interface UserDoc extends Document {
   password: string;
   email: string;
   firstname: string;
-  lastname: string;
-  birthdate: Date;
+  lastname?: string;
+  birthdate?: Date;
   isAdmin?: boolean;
+  lastSignin?: Date;
 }
 
 export interface userAttrs {
@@ -15,9 +16,10 @@ export interface userAttrs {
   password: string;
   email: string;
   firstname: string;
-  lastname: string;
-  birthdate: Date | string;
+  lastname?: string;
+  birthdate?: Date | string;
   isAdmin?: boolean;
+  lastSignin?: Date;
 }
 
 export interface UserModel extends Model<UserDoc> {

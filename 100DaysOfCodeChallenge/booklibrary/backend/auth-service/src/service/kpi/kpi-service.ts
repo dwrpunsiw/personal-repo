@@ -1,4 +1,3 @@
-import { body } from "express-validator";
 import axios from "axios";
 import { Kpi } from "./types/kpi-types";
 import { green, red } from "colors";

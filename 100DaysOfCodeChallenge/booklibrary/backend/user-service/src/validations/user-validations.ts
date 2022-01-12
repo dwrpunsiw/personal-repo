@@ -6,6 +6,7 @@ export const userValidations = [
     .withMessage("Request Id must not be empty")
     .isUUID("4")
     .withMessage("Request Id not valid"),
+  header("touchpoint").notEmpty().withMessage("Request Id must not be empty"),
   body("username").notEmpty().withMessage("Username must not be empty"),
   body("email")
     .notEmpty()
@@ -21,5 +22,6 @@ export const checkUsernameValidations = [
     .withMessage("Request Id must not be empty")
     .isUUID("4")
     .withMessage("Request Id not valid"),
+  header("touchpoint").notEmpty().withMessage("Request Id must not be empty"),
   query("username").notEmpty().withMessage("Username must not be empty"),
 ];
