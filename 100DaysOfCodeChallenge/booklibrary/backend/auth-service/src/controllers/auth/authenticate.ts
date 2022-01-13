@@ -20,7 +20,13 @@ export const authenticate = async (req: Request, res: Response) => {
 
   try {
     console.log(green(`[AUTH SERVICE][AUTHENTICATE][START]`));
-    const payload = jwt.verify(req.session?.authlib, process.env.JWT_SECRET!);
+    const payload = await jwt.verify(
+      req.session?.authlib,
+      process.env.JWT_SECRET!
+    );
+    console.log(
+      green(`[AUTH SERVICE][AUTHENTICATE][USER AUTHENTICATED, TOKEN VALID]`)
+    );
   } catch (error) {
     console.log(red(`[AUTH SERVICE][AUTHENTICATE][TOKEN NOT VALID]`));
     const newKpi = constructKpiPayload(
@@ -40,7 +46,7 @@ export const authenticate = async (req: Request, res: Response) => {
 
     try {
       console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-      insertKpi(newKpi);
+      await insertKpi(newKpi, "AUTH");
       console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
     } catch (error) {
       if (error instanceof ServiceCallError) {
@@ -64,7 +70,7 @@ export const authenticate = async (req: Request, res: Response) => {
 
   try {
     console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-    insertKpi(newKpi);
+    await insertKpi(newKpi, "AUTH");
     console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
   } catch (error) {
     if (error instanceof ServiceCallError) {

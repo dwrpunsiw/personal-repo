@@ -47,7 +47,7 @@ export const checkUsername = async (req: Request, res: Response) => {
 
     try {
       console.log(green(`[USER SERVICE][INSERT KPI][START]`));
-      insertKpi(newKpi);
+      await insertKpi(newKpi, "USER");
       console.log(green(`[USER SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
     } catch (error) {
       if (error instanceof ServiceCallError) {
@@ -78,7 +78,7 @@ export const checkUsername = async (req: Request, res: Response) => {
 
   try {
     console.log(green(`[USER SERVICE][INSERT KPI][START]`));
-    insertKpi(newKpi);
+    await insertKpi(newKpi, "USER");
     console.log(green(`[USER SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
   } catch (error) {
     if (error instanceof ServiceCallError) {

@@ -73,11 +73,9 @@ export const signup = async (req: Request, res: Response) => {
       }
     );
 
-    console.log(`KPI : ${newKpi}`);
-
     try {
       console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-      insertKpi(newKpi);
+      await insertKpi(newKpi, "AUTH");
       console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
     } catch (error) {
       if (error instanceof ServiceCallError) {
@@ -109,7 +107,7 @@ export const signup = async (req: Request, res: Response) => {
 
   try {
     console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-    insertKpi(newKpi);
+    await insertKpi(newKpi, "AUTH");
     console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
   } catch (error) {
     if (error instanceof ServiceCallError) {

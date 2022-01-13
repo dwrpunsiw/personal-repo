@@ -14,6 +14,7 @@ export const userValidations = [
     .isEmail()
     .withMessage("Email is not valid"),
   body("firstname").notEmpty().withMessage("First name must not be empty"),
+  body("birthdate").optional().isDate().withMessage("Invalid Date format"),
 ];
 
 export const checkUsernameValidations = [

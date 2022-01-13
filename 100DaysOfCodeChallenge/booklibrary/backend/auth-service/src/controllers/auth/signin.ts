@@ -66,7 +66,7 @@ export const signin = async (req: Request, res: Response) => {
 
     try {
       console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-      insertKpi(newKpi);
+      await insertKpi(newKpi, "AUTH");
       console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
     } catch (error) {
       if (error instanceof ServiceCallError) {
@@ -96,7 +96,7 @@ export const signin = async (req: Request, res: Response) => {
     };
     const authHistory = AuthHistory.build(authHistoryAttrs);
     await authHistory.save();
-    await existingUser.update({ $set: { lastSignin: lastSignin } });
+    await existingUser.updateOne({ $set: { lastSignin: lastSignin } });
     console.log(
       green(
         `[AUTH SERVICE][SAVING SIGNIN DATE AND INSERT HISTORY][SUCCESSFULLY SIGNIN USER]`
@@ -126,7 +126,7 @@ export const signin = async (req: Request, res: Response) => {
 
     try {
       console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-      insertKpi(newKpi);
+      insertKpi(newKpi, "AUTH");
       console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
     } catch (error) {
       if (error instanceof ServiceCallError) {
@@ -158,9 +158,12 @@ export const signin = async (req: Request, res: Response) => {
   );
 
   try {
-    insertKpi(newKpi);
+    console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
+    await insertKpi(newKpi, "AUTH");
+    console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
   } catch (error) {
     if (error instanceof ServiceCallError) {
+      console.log(red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`));
       throw error;
     }
   }
