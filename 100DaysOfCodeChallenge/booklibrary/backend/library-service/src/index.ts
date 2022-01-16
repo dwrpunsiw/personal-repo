@@ -1,30 +1,32 @@
+import { connectDatabase } from "./helpers/db";
+import { app } from "./app";
 import { green, red } from "colors";
 
-import { app } from "./app";
-import { connectDatabase } from "./helpers/db";
-
-const port = process.env.SERVICE_PORT || 3001;
+const port = process.env.SERVICE_PORT || 3003;
 
 const startApplication = async () => {
   const startTime = new Date();
   try {
     await connectDatabase();
     console.log(
-      green(`[KPI SERVICE][DATABASE CONNECT][SUCCESSFULLY CONNECT TO MONGODB]`)
+      green(
+        `[LIBRARY SERVICE][DATABASE CONNECT][SUCCESSFULLY CONNECT TO MONGODB]`
+      )
     );
   } catch (error) {
     console.error(
-      red(`[KPI SERVICE][DATABASE CONNECT][UNSUCCESSFULLY CONNECT TO MONGODB]`)
+      red(
+        `[LIBRARY SERVICE][DATABASE CONNECT][UNSUCCESSFULLY CONNECT TO MONGODB]`
+      )
     );
     process.exit();
   }
-
   app.listen(port, () => {
     const endTime = new Date();
     const startUpTIme = endTime.getTime() - startTime.getTime();
     console.log(
       green(
-        `[KPI SERVICE][START][KPI SERVICE IS UP AND RUNNING ON PORT ${port}][START UP TIME ${startUpTIme} ms]`
+        `[LIBRARY SERVICE][START][LIBRARY SERVICE IS UP AND RUNNING ON PORT ${port}][START UP TIME ${startUpTIme} ms]`
       )
     );
   });

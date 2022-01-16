@@ -1,10 +1,8 @@
-import { DatabaseConnectionError } from "./models/exception/database-connection-error";
 import { connectDatabase } from "./helpers/db";
 import { app } from "./app";
 import { green, red } from "colors";
-import { Completion } from "./models/enums/completion";
 
-const port = process.env.AUTH_SERVICE_PORT || 3000;
+const port = process.env.SERVICE_PORT || 3000;
 
 const startApplication = async () => {
   const startTime = new Date();
