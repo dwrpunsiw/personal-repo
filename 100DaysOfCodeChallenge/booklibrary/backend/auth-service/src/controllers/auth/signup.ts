@@ -1,5 +1,3 @@
-import { ServiceCallError } from "./../../models/exception/service-call-error";
-import { insertKpi } from "./../../service/kpi/kpi-service";
 import { GenericResponse } from "./../../models/response/generic-response";
 import { DatabaseInsertionError } from "./../../models/exception/database-insertion-error";
 import { Request, Response } from "express";
@@ -10,6 +8,7 @@ import { constructKpiPayload } from "../../helpers/construct-payload";
 import jwt from "jsonwebtoken";
 import { ConflictDataError } from "../../models/exception/conflict-data-error";
 import { userAttrs } from "../../models/schema/types/user-types";
+import { onCompletion } from "../../middlewares/completion-handler";
 
 export const signup = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {
@@ -26,6 +25,16 @@ export const signup = async (req: Request, res: Response) => {
     birthdate,
   }: userAttrs = req.body;
 
+  let kpi = constructKpiPayload(
+    requestId,
+    touchPoint,
+    req.path,
+    req.method,
+    null,
+    null,
+    null
+  );
+
   console.log(
     green(`[AUTH SERVICE][REQUEST RECEIVED][REQUEST ID ${requestId}]`)
   );
@@ -35,7 +44,24 @@ export const signup = async (req: Request, res: Response) => {
 
   if (existingUser) {
     console.log(red(`[AUTH SERVICE][GET USER][USER ALREADY EXISTS]`));
-    throw new ConflictDataError("Corresponding username not found");
+
+    kpi = {
+      ...kpi,
+      completion: Completion.Failed,
+      description: `Unsuccessfully signing up a new user, user already exists`,
+      exception: {
+        exceptionName: ConflictDataError.prototype.errorName,
+        exceptionCode: "01",
+        exceptionDescription:
+          "UNSUCCESSFULLY SIGN UP USER, USER WITH CORRESPONDING USERNAME ALREADY EXISTS",
+        exceptionStatus: "Failed",
+      },
+    };
+    throw new ConflictDataError(
+      "Corresponding username not found",
+      "AUTH SERVICE",
+      kpi
+    );
   }
 
   const newUser = {
@@ -58,35 +84,19 @@ export const signup = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(red(`[AUTH SERVICE][SAVING USER][UNSUCCESSFULLY SAVING USER]`));
 
-    const newKpi = constructKpiPayload(
-      requestId,
-      touchPoint,
-      req.path,
-      req.method,
-      Completion.Error,
-      `Unsuccessfully signing up a new user`,
-      {
+    kpi = {
+      ...kpi,
+      completion: Completion.Error,
+      description: `Unsuccessfully signing up a new user`,
+      exception: {
         exceptionName: DatabaseInsertionError.prototype.errorName,
         exceptionCode: "99",
         exceptionDescription: "UNSUCCESSFULLY INSERT DOCUMENT TO MONGODB",
         exceptionStatus: "Error",
-      }
-    );
+      },
+    };
 
-    try {
-      console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-      await insertKpi(newKpi, "AUTH");
-      console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
-    } catch (error) {
-      if (error instanceof ServiceCallError) {
-        console.log(
-          red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`)
-        );
-        throw error;
-      }
-    }
-
-    throw new DatabaseInsertionError(user);
+    throw new DatabaseInsertionError(user, "AUTH SERVICE", kpi);
   }
 
   const userJwt = jwt.sign(user.toJSON(), process.env.JWT_SECRET!);
@@ -96,25 +106,13 @@ export const signup = async (req: Request, res: Response) => {
     authlib: userJwt,
   };
 
-  const newKpi = constructKpiPayload(
-    requestId,
-    touchPoint,
-    req.path,
-    req.method,
-    Completion.Success,
-    `Successfully sign up a new user`
-  );
+  kpi = {
+    ...kpi,
+    completion: Completion.Success,
+    description: `Successfully sign up a new user`,
+  };
 
-  try {
-    console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-    await insertKpi(newKpi, "AUTH");
-    console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
-  } catch (error) {
-    if (error instanceof ServiceCallError) {
-      console.log(red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`));
-      throw error;
-    }
-  }
+  await onCompletion("AUTH SERVICE", kpi);
 
   const response = new GenericResponse(
     Completion.Success,

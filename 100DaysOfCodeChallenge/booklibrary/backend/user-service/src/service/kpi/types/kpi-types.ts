@@ -12,7 +12,7 @@ export interface Kpi {
   routes: string;
   touchPoint: string;
   operationType: string;
-  completion: string;
-  description: string;
-  exception?: exceptionAttrs;
+  completion: string | null;
+  description: string | null;
+  exception?: exceptionAttrs | null;
 }

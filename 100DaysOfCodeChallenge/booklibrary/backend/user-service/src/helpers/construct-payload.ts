@@ -5,9 +5,9 @@ export const constructKpiPayload = (
   touchPoint: string,
   routes: string,
   operationType: string,
-  completion: string,
-  description: string,
-  exception?: exceptionAttrs
+  completion: string | null,
+  description: string | null,
+  exception?: exceptionAttrs | null
 ): Kpi => {
   const newKpi: Kpi = {
     requestId,

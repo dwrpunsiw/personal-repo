@@ -4,15 +4,25 @@ import { User } from "../../models/schema/user";
 import { Completion } from "../../models/enums/completion";
 import { constructKpiPayload } from "../../helpers/construct-payload";
 import { DatabaseInsertionError } from "../../models/exception/database-insertion-error";
-import { insertKpi } from "../../service/kpi/kpi-service";
-import { ServiceCallError } from "../../models/exception/service-call-error";
 import { GenericResponse } from "../../models/response/generic-response";
+import { onCompletion } from "../../middlewares/completion-handler";
 
 export const updateUser = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {
     requestid: string;
     touchpoint: string;
   };
+
+  let kpi = constructKpiPayload(
+    requestId,
+    touchPoint,
+    req.path,
+    req.method,
+    null,
+    null,
+    null
+  );
+
   const { username, email, firstname, lastname, birthdate } = req.body;
 
   console.log(
@@ -44,56 +54,28 @@ export const updateUser = async (req: Request, res: Response) => {
       red(`[USER SERVICE][UPDATING USER][UNSUCCESSFULLY UPDATING USER]`)
     );
 
-    const newKpi = constructKpiPayload(
-      requestId,
-      touchPoint,
-      req.path,
-      req.method,
-      Completion.Error,
-      `Unsuccessfully signing up a new user`,
-      {
+    kpi = {
+      ...kpi,
+      completion: Completion.Error,
+      description: `Unsuccessfully signing up a new user`,
+      exception: {
         exceptionName: DatabaseInsertionError.prototype.errorName,
         exceptionCode: "99",
-        exceptionDescription: "UNSUCCESSFULLY INSERT DOCUMENT TO MONGODB",
+        exceptionDescription: "UNSUCCESSFULLY UPDATE DOCUMENT TO MONGODB",
         exceptionStatus: "Error",
-      }
-    );
+      },
+    };
 
-    try {
-      console.log(green(`[USER SERVICE][INSERT KPI][START]`));
-      await insertKpi(newKpi, "USER");
-      console.log(green(`[USER SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
-    } catch (error) {
-      if (error instanceof ServiceCallError) {
-        console.log(
-          red(`[USER SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`)
-        );
-        throw error;
-      }
-    }
-
-    throw new DatabaseInsertionError(req.body);
+    throw new DatabaseInsertionError(req.body, "USER SERVICE", kpi);
   }
 
-  const newKpi = constructKpiPayload(
-    requestId,
-    touchPoint,
-    req.path,
-    req.method,
-    Completion.Success,
-    `Successfully update user`
-  );
+  kpi = {
+    ...kpi,
+    completion: Completion.Success,
+    description: `Successfully update user`,
+  };
 
-  try {
-    console.log(green(`[USER SERVICE][INSERT KPI][START]`));
-    await insertKpi(newKpi, "USER");
-    console.log(green(`[USER SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
-  } catch (error) {
-    if (error instanceof ServiceCallError) {
-      console.log(red(`[USER SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`));
-      throw error;
-    }
-  }
+  await onCompletion("USER SERVICE", kpi);
 
   const response = new GenericResponse(
     Completion.Success,

@@ -1,9 +1,11 @@
-import { Type } from "typescript";
+import { Kpi } from "../../service/kpi/types/kpi-types";
 import { Completion } from "../enums/completion";
 
 export abstract class CustomError extends Error {
   abstract statusCode: number;
   abstract errorName: string;
+  abstract kpi: Kpi;
+  abstract serviceName: string;
 
   constructor(message: string) {
     super(message);

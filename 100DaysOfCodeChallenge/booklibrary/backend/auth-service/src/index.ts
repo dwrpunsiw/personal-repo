@@ -2,6 +2,7 @@ import { DatabaseConnectionError } from "./models/exception/database-connection-
 import { connectDatabase } from "./helpers/db";
 import { app } from "./app";
 import { green, red } from "colors";
+import { Completion } from "./models/enums/completion";
 
 const port = process.env.AUTH_SERVICE_PORT || 3000;
 
@@ -16,7 +17,6 @@ const startApplication = async () => {
     console.error(
       red(`[AUTH SERVICE][DATABASE CONNECT][UNSUCCESSFULLY CONNECT TO MONGODB]`)
     );
-    throw new DatabaseConnectionError();
     process.exit();
   }
   app.listen(port, () => {

@@ -1,15 +1,24 @@
-import { ServiceCallError } from "./../../models/exception/service-call-error";
-import { insertKpi } from "./../../service/kpi/kpi-service";
 import { Request, Response } from "express";
-import { red, green } from "colors";
+import { green } from "colors";
 import { Completion } from "../../models/enums/completion";
 import { constructKpiPayload } from "../../helpers/construct-payload";
+import { onCompletion } from "../../middlewares/completion-handler";
 
 export const signout = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {
     requestid: string;
     touchpoint: string;
   };
+
+  let kpi = constructKpiPayload(
+    requestId,
+    touchPoint,
+    req.path,
+    req.method,
+    null,
+    null,
+    null
+  );
 
   console.log(
     green(`[AUTH SERVICE][REQUEST RECEIVED][REQUEST ID ${requestId}]`)
@@ -23,25 +32,13 @@ export const signout = async (req: Request, res: Response) => {
     green(`[AUTH SERVICE][RESET SESSION][SUCCESSFULLY RESET SESSION]`)
   );
 
-  const newKpi = constructKpiPayload(
-    requestId,
-    touchPoint,
-    req.path,
-    req.method,
-    Completion.Success,
-    `Successfully sign out user`
-  );
+  kpi = {
+    ...kpi,
+    completion: Completion.Success,
+    description: `Successfully sign out user`,
+  };
 
-  try {
-    console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-    await insertKpi(newKpi, "AUTH");
-    console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
-  } catch (error) {
-    if (error instanceof ServiceCallError) {
-      console.log(red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`));
-      throw error;
-    }
-  }
+  await onCompletion("AUTH SERVICE", kpi);
 
   res.status(205).send({});
 };

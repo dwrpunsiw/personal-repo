@@ -1,6 +1,4 @@
 import { LocationDoc } from "./../../models/schema/types/location-types";
-import { ServiceCallError } from "./../../models/exception/service-call-error";
-import { insertKpi } from "./../../service/kpi/kpi-service";
 import { GenericResponse } from "./../../models/response/generic-response";
 import { DatabaseInsertionError } from "./../../models/exception/database-insertion-error";
 import { Request, Response } from "express";
@@ -13,12 +11,24 @@ import { DatabaseNotFoundError } from "../../models/exception/database-not-found
 import { verifyHashedPassword } from "../../helpers/encrypt";
 import { InvalidCredentialsError } from "../../models/exception/invalid-credentials-error";
 import { AuthHistory } from "../../models/schema/auth-history";
+import { onCompletion } from "../../middlewares/completion-handler";
 
 export const signin = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {
     requestid: string;
     touchpoint: string;
   };
+
+  let kpi = constructKpiPayload(
+    requestId,
+    touchPoint,
+    req.path,
+    req.method,
+    null,
+    null,
+    null
+  );
+
   const { username, password } = req.body;
   const location: LocationDoc = req.body.location as LocationDoc;
 
@@ -35,8 +45,22 @@ export const signin = async (req: Request, res: Response) => {
         `[AUTH SERVICE][GET USER][USER WITH CORRESPONDING USERNAME NOT FOUND]`
       )
     );
+
+    kpi = {
+      ...kpi,
+      completion: Completion.Failed,
+      description: `Unsuccessfully getting user, user not found`,
+      exception: {
+        exceptionName: DatabaseNotFoundError.prototype.errorName,
+        exceptionCode: "01",
+        exceptionDescription: "USER WITH CORRESPONDING USERNAME NOT FOUND",
+        exceptionStatus: "Failed",
+      },
+    };
     throw new DatabaseNotFoundError(
-      "User with corresponding username not found"
+      "User with corresponding username not found",
+      "AUTH SERVICE",
+      kpi
     );
   }
 
@@ -49,34 +73,24 @@ export const signin = async (req: Request, res: Response) => {
         `[AUTH SERVICE][VERIFY CREDENTIALS][USER WITH CORRESPONDING CREDENTIALS IS NOT VALID]`
       )
     );
-    const newKpi = constructKpiPayload(
-      requestId,
-      touchPoint,
-      req.path,
-      req.method,
-      Completion.Failed,
-      `Unsuccessfully signing in user, password are not match`,
-      {
+
+    kpi = {
+      ...kpi,
+      completion: Completion.Failed,
+      description: `Unsuccessfully signing in user, password are not match`,
+      exception: {
         exceptionName: InvalidCredentialsError.prototype.errorName,
         exceptionCode: "01",
         exceptionDescription: "PASSWORD NOT MATCH, INVALID CREDENTIALS",
         exceptionStatus: "Failed",
-      }
-    );
+      },
+    };
 
-    try {
-      console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-      await insertKpi(newKpi, "AUTH");
-      console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
-    } catch (error) {
-      if (error instanceof ServiceCallError) {
-        console.log(
-          red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`)
-        );
-        throw error;
-      }
-    }
-    throw new InvalidCredentialsError("Password are invalid");
+    throw new InvalidCredentialsError(
+      "Password are invalid",
+      "AUTH SERVICE",
+      kpi
+    );
   }
   console.log(
     green(`[AUTH SERVICE][VERIFY CREDENTIALS][CREDENTIALS VERIFIED]`)
@@ -109,35 +123,19 @@ export const signin = async (req: Request, res: Response) => {
       )
     );
 
-    const newKpi = constructKpiPayload(
-      requestId,
-      touchPoint,
-      req.path,
-      req.method,
-      Completion.Error,
-      `Unsuccessfully signing up a new user`,
-      {
+    kpi = {
+      ...kpi,
+      completion: Completion.Error,
+      description: `Unsuccessfully signing up a new user`,
+      exception: {
         exceptionName: DatabaseInsertionError.prototype.errorName,
         exceptionCode: "99",
         exceptionDescription: "UNSUCCESSFULLY INSERT DOCUMENT TO MONGODB",
         exceptionStatus: "Error",
-      }
-    );
+      },
+    };
 
-    try {
-      console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-      insertKpi(newKpi, "AUTH");
-      console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
-    } catch (error) {
-      if (error instanceof ServiceCallError) {
-        console.log(
-          red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`)
-        );
-        throw error;
-      }
-    }
-
-    throw new DatabaseInsertionError(existingUser);
+    throw new DatabaseInsertionError(existingUser, "AUTH SERVICE", kpi);
   }
 
   console.log(green(`[AUTH SERVICE][GENERATE TOKEN][START]`));
@@ -148,25 +146,13 @@ export const signin = async (req: Request, res: Response) => {
   };
   console.log(green(`[AUTH SERVICE][GENERATE TOKEN][SUCCESS]`));
 
-  const newKpi = constructKpiPayload(
-    requestId,
-    touchPoint,
-    req.path,
-    req.method,
-    Completion.Success,
-    `Successfully sign up a new user`
-  );
+  kpi = {
+    ...kpi,
+    completion: Completion.Success,
+    description: `Successfully sign in a new user`,
+  };
 
-  try {
-    console.log(green(`[AUTH SERVICE][INSERT KPI][START]`));
-    await insertKpi(newKpi, "AUTH");
-    console.log(green(`[AUTH SERVICE][INSERT KPI][SUCCESSFULLY INSERT KPI]`));
-  } catch (error) {
-    if (error instanceof ServiceCallError) {
-      console.log(red(`[AUTH SERVICE][INSERT KPI][UNSUCCESSFULLY INSERT KPI]`));
-      throw error;
-    }
-  }
+  await onCompletion("AUTH SERVICE", kpi);
 
   const response = new GenericResponse(
     Completion.Success,

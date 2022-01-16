@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/admin",
+    "icon": "",
+    "content": "Admin",
+    "priviledge": true
+  },
+  {
+    "path": "/settings",
+    "icon": "",
+    "content": "Settings",
+    "priviledge": false
+  },
+  {
+    "path": "/logout",
+    "icon": "",
+    "content": "Log Out",
+    "priviledge": false
+  }
+]

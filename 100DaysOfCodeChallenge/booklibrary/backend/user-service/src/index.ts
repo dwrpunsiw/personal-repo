@@ -17,7 +17,6 @@ const startApplication = async () => {
     console.error(
       red(`[USER SERVICE][DATABASE CONNECT][UNSUCCESSFULLY CONNECT TO MONGODB]`)
     );
-    throw new DatabaseConnectionError();
     process.exit();
   }
   app.listen(port, () => {

@@ -1,4 +1,5 @@
 import { ValidationError } from "express-validator";
+import { Kpi } from "../../service/kpi/types/kpi-types";
 import { Completion } from "../enums/completion";
 import { CustomError } from "./custom-error";
 
@@ -7,9 +8,12 @@ export class RequestValidationError extends CustomError {
   message = "Invalid request parameters";
 
   statusCode = 400;
-  constructor(public errors: ValidationError[]) {
+  constructor(
+    public errors: ValidationError[],
+    public serviceName: string,
+    public kpi: Kpi
+  ) {
     super("Invalid request parameters");
-
     Object.setPrototypeOf(this, RequestValidationError.prototype);
   }
   generateErrors() {

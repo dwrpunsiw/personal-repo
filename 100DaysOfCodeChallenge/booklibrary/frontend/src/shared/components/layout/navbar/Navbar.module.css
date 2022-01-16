@@ -1,0 +1,14 @@
+.navigation {
+  height: 100vh;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--color-primary-100);
+}
+
+.navigation .menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}

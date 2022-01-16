@@ -1,3 +1,4 @@
+import { Kpi } from "../../service/kpi/types/kpi-types";
 import { Completion } from "../enums/completion";
 import { CustomError } from "./custom-error";
 
@@ -6,7 +7,7 @@ export class ServiceCallError extends CustomError {
   message: string;
   errorName: string = "Service Call Error";
 
-  constructor(message: string) {
+  constructor(message: string, public serviceName: string, public kpi: Kpi) {
     super(`${message}`);
     this.message = `${message}`;
     Object.setPrototypeOf(this, ServiceCallError.prototype);

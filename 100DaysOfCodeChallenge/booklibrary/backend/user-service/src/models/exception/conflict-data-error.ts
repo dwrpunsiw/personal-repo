@@ -1,3 +1,4 @@
+import { Kpi } from "../../service/kpi/types/kpi-types";
 import { Completion } from "../enums/completion";
 import { CustomError } from "./custom-error";
 
@@ -5,9 +6,12 @@ export class ConflictDataError extends CustomError {
   statusCode: number = 409;
   errorName: string = "Conflict Data Error";
 
-  constructor(public message: string) {
+  constructor(
+    public message: string,
+    public serviceName: string,
+    public kpi: Kpi
+  ) {
     super(message);
-
     Object.setPrototypeOf(this, ConflictDataError.prototype);
   }
 

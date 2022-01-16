@@ -1,3 +1,4 @@
+import { Kpi } from "../../service/kpi/types/kpi-types";
 import { Completion } from "../enums/completion";
 import { CustomError } from "./custom-error";
 
@@ -6,7 +7,7 @@ export class NotFoundError extends CustomError {
   message: string;
   errorName: string = "Not Found Error";
 
-  constructor(route: string) {
+  constructor(route: string, public serviceName: string, public kpi: Kpi) {
     super(`Can't access ${route}, corresponding route is not found`);
     this.message = `Can't access ${route}, corresponding route is not found`;
     Object.setPrototypeOf(this, NotFoundError.prototype);
