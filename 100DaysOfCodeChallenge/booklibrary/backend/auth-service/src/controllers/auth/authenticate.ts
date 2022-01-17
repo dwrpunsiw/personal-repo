@@ -1,11 +1,11 @@
-import { GenericResponse } from "./../../models/response/generic-response";
+import { GenericResponse } from "@wpw-library/common";
 import { Request, Response } from "express";
 import { red, green } from "colors";
-import { Completion } from "../../models/enums/completion";
-import { constructKpiPayload } from "../../helpers/construct-payload";
+import { Completion } from "@wpw-library/common";
+import { constructKpiPayload } from "@wpw-library/common";
 import jwt from "jsonwebtoken";
-import { VerifyTokenError } from "../../models/exception/verify-token-error";
-import { onCompletion } from "../../middlewares/completion-handler";
+import { VerifyTokenError } from "@wpw-library/common";
+import { onCompletion } from "@wpw-library/common";
 
 export const authenticate = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {

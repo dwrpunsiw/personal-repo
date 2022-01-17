@@ -1,5 +1,5 @@
-import { validateRequest } from "./../middlewares/validate-request";
 import express from "express";
+import { validateRequest } from "@wpw-library/common";
 import { checkUsername, updateUser } from "../controllers/user-controller";
 import {
   checkUsernameValidations,

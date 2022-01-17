@@ -1,4 +1,4 @@
-import { convertHashPassword } from "./../../helpers/encrypt";
+import { convertHashPassword } from "@wpw-library/common";
 import mongoose from "mongoose";
 import { UserDoc, UserModel, userAttrs } from "./types/user-types";
 

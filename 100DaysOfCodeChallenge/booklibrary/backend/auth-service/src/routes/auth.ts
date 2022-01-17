@@ -3,7 +3,7 @@ import {
   signoutValidations,
   signupValidations,
 } from "./../validations/auth";
-import { validateRequest } from "./../middlewares/validate-request";
+import { validateRequest } from "@wpw-library/common";
 
 // Import Dependency
 import express from "express";

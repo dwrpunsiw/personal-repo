@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { green } from "colors";
-import { Completion } from "../../models/enums/completion";
-import { constructKpiPayload } from "../../helpers/construct-payload";
-import { onCompletion } from "../../middlewares/completion-handler";
+import { Completion } from "@wpw-library/common";
+import { constructKpiPayload } from "@wpw-library/common";
+import { onCompletion } from "@wpw-library/common";
 
 export const signout = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {

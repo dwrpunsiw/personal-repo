@@ -1,6 +1,6 @@
 import express from "express";
 import { addbook } from "../controllers/library-contoller";
-import { validateRequest } from "../middlewares/validate-request";
+import { validateRequest } from "@wpw-library/common";
 import { bookValidations } from "../validations/library-validation";
 
 const router = express.Router();

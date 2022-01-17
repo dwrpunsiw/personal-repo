@@ -1,5 +1,5 @@
 import express from "express";
-import { validateRequest } from "../middlewares/validate-request";
+import { validateRequest } from "@wpw-library/common";
 
 import { insertKpi, summaryKpi } from "../controllers/kpi-controller";
 import { kpiValidations } from "../validations/kpi";

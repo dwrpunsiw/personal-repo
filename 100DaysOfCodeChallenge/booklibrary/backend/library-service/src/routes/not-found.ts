@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
 import { green } from "colors";
-import { NotFoundError } from "../models/exception/not-found-error";
-import { constructKpiPayload } from "../helpers/construct-payload";
-import { Completion } from "../models/enums/completion";
+import { NotFoundError } from "@wpw-library/common";
+import { constructKpiPayload } from "@wpw-library/common";
+import { Completion } from "@wpw-library/common";
 
 const router = express.Router();
 

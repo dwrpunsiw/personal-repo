@@ -1,14 +1,14 @@
-import { GenericResponse } from "./../../models/response/generic-response";
-import { DatabaseInsertionError } from "./../../models/exception/database-insertion-error";
+import { GenericResponse } from "@wpw-library/common";
+import { DatabaseInsertionError } from "@wpw-library/common";
 import { Request, Response } from "express";
 import { User } from "../../models/schema/user";
 import { red, green } from "colors";
-import { Completion } from "../../models/enums/completion";
-import { constructKpiPayload } from "../../helpers/construct-payload";
+import { Completion } from "@wpw-library/common";
+import { constructKpiPayload } from "@wpw-library/common";
 import jwt from "jsonwebtoken";
-import { ConflictDataError } from "../../models/exception/conflict-data-error";
+import { ConflictDataError } from "@wpw-library/common";
 import { userAttrs } from "../../models/schema/types/user-types";
-import { onCompletion } from "../../middlewares/completion-handler";
+import { onCompletion } from "@wpw-library/common";
 
 export const signup = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {

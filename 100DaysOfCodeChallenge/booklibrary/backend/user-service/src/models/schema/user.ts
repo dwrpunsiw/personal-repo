@@ -1,5 +1,5 @@
-import { convertHashPassword } from "./../../helpers/encrypt";
 import mongoose from "mongoose";
+import { convertHashPassword } from "@wpw-library/common";
 import { UserDoc, UserModel, userAttrs } from "./types/user-types";
 
 const UserSchema = new mongoose.Schema(

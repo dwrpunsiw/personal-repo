@@ -1,9 +1,9 @@
-import { VerifyTokenError } from "./../../../../auth-service/src/models/exception/verify-token-error";
+import { VerifyTokenError } from "@wpw-library/common";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
-import { constructKpiPayload } from "../../helpers/construct-payload";
+import { constructKpiPayload } from "@wpw-library/common";
 import { green, red } from "colors";
-import { Completion } from "../../models/enums/completion";
+import { Completion } from "@wpw-library/common";
 
 export const addbook = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {

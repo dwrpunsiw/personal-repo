@@ -1,17 +1,17 @@
 import { LocationDoc } from "./../../models/schema/types/location-types";
-import { GenericResponse } from "./../../models/response/generic-response";
-import { DatabaseInsertionError } from "./../../models/exception/database-insertion-error";
+import { GenericResponse } from "@wpw-library/common";
+import { DatabaseInsertionError } from "@wpw-library/common";
 import { Request, Response } from "express";
 import { User } from "../../models/schema/user";
 import { red, green } from "colors";
-import { Completion } from "../../models/enums/completion";
-import { constructKpiPayload } from "../../helpers/construct-payload";
+import { Completion } from "@wpw-library/common";
+import { constructKpiPayload } from "@wpw-library/common";
 import jwt from "jsonwebtoken";
-import { DatabaseNotFoundError } from "../../models/exception/database-not-found-error";
-import { verifyHashedPassword } from "../../helpers/encrypt";
-import { InvalidCredentialsError } from "../../models/exception/invalid-credentials-error";
+import { DatabaseNotFoundError } from "@wpw-library/common";
+import { verifyHashedPassword } from "@wpw-library/common";
+import { InvalidCredentialsError } from "@wpw-library/common";
 import { AuthHistory } from "../../models/schema/auth-history";
-import { onCompletion } from "../../middlewares/completion-handler";
+import { onCompletion } from "@wpw-library/common";
 
 export const signin = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {

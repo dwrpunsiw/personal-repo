@@ -9,7 +9,7 @@ import cookieSession from "cookie-session";
 // Import modules
 import notFoundRoutes from "./routes/not-found";
 import libraryRoutes from "./routes/library";
-import { errorHandler } from "./middlewares/error-handler";
+import { errorHandler } from "@wpw-library/common";
 
 // Initialize express
 const app = express();

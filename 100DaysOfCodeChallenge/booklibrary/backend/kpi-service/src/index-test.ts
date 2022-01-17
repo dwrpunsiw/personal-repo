@@ -3,8 +3,7 @@ import { green, red } from "colors";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 import { app } from "./app";
-import { connectDatabase } from "./helpers/db";
-import { DatabaseConnectionError } from "./models/exception/database-connection-error";
+import { DatabaseConnectionError } from "@wpw-library/common";
 
 const port = process.env.SERVICE_PORT || 3001;
 

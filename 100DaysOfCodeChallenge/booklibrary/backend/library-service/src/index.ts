@@ -1,4 +1,4 @@
-import { connectDatabase } from "./helpers/db";
+import { connectDatabase } from "@wpw-library/common";
 import { app } from "./app";
 import { green, red } from "colors";
 

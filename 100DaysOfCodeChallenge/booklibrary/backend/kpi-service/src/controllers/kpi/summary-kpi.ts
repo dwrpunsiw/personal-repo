@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 
 import { green } from "colors";
 import { Kpi } from "../../models/schema/kpi";
-import { GenericResponse } from "../../models/response/generic-response";
-import { Completion } from "../../models/enums/completion";
+import { GenericResponse, Completion } from "@wpw-library/common";
 
 export const summaryKpi = async (req: Request, res: Response) => {
   const { requestId, servicename } = req.body;

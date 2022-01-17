@@ -8,7 +8,7 @@ import cors from "cors";
 // Import modules
 import userRoutes from "./routes/user-routes";
 import notFoundRoutes from "./routes/not-found";
-import { errorHandler } from "./middlewares/error-handler";
+import { errorHandler } from "@wpw-library/common";
 
 // Initialize express
 const app = express();

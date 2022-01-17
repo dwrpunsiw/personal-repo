@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { green, red } from "colors";
 import { User } from "../../models/schema/user";
-import { Completion } from "../../models/enums/completion";
-import { constructKpiPayload } from "../../helpers/construct-payload";
-import { DatabaseInsertionError } from "../../models/exception/database-insertion-error";
-import { GenericResponse } from "../../models/response/generic-response";
-import { onCompletion } from "../../middlewares/completion-handler";
+import {
+  Completion,
+  constructKpiPayload,
+  DatabaseInsertionError,
+  GenericResponse,
+  onCompletion,
+} from "@wpw-library/common";
 
 export const updateUser = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {

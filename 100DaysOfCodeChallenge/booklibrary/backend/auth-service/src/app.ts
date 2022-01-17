@@ -10,7 +10,7 @@ import cookieSession from "cookie-session";
 import homeRoutes from "./routes/home";
 import authRoutes from "./routes/auth";
 import notFoundRoutes from "./routes/not-found";
-import { errorHandler } from "./middlewares/error-handler";
+import { errorHandler } from "@wpw-library/common";
 
 // Initialize express
 const app = express();

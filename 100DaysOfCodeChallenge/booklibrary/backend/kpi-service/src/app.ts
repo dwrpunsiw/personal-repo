@@ -9,7 +9,7 @@ import cors from "cors";
 import homeRoutes from "./routes/home";
 import kpiRoutes from "./routes/kpi-routes";
 import notFoundRoutes from "./routes/not-found";
-import { errorHandler } from "./middlewares/error-handler";
+import { errorHandler } from "@wpw-library/common";
 
 // Initialize express
 const app = express();

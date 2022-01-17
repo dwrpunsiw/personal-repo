@@ -1,7 +1,7 @@
 import { green, red } from "colors";
 
 import { app } from "./app";
-import { connectDatabase } from "./helpers/db";
+import { connectDatabase } from "@wpw-library/common";
 
 const port = process.env.SERVICE_PORT || 3001;
 

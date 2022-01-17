@@ -1,11 +1,13 @@
-import { constructKpiPayload } from "./../../helpers/construct-payload";
-import { GenericResponse } from "./../../models/response/generic-response";
+import {
+  constructKpiPayload,
+  GenericResponse,
+  Completion,
+  ConflictDataError,
+  onCompletion,
+} from "@wpw-library/common";
 import { Request, Response } from "express";
 import { green, red } from "colors";
 import { User } from "../../models/schema/user";
-import { Completion } from "../../models/enums/completion";
-import { ConflictDataError } from "../../models/exception/conflict-data-error";
-import { onCompletion } from "../../middlewares/completion-handler";
 
 export const checkUsername = async (req: Request, res: Response) => {
   const { requestid: requestId, touchpoint: touchPoint } = req.headers as {

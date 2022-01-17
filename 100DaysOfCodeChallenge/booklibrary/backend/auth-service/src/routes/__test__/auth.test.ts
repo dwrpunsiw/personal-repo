@@ -1,5 +1,4 @@
 import request from "supertest";
-import { isAssertClause } from "typescript";
 import { app } from "../../app";
 
 // router.post("/api/auth/authenticate", authenticate);

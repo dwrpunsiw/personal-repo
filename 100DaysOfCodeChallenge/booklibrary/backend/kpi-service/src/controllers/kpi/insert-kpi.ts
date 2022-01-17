@@ -2,9 +2,11 @@ import { Request, Response } from "express";
 
 import { Kpi } from "../../models/schema/kpi";
 import { green, red } from "colors";
-import { DatabaseInsertionError } from "../../models/exception/database-insertion-error";
-import { GenericResponse } from "../../models/response/generic-response";
-import { Completion } from "../../models/enums/completion";
+import {
+  DatabaseInsertionError,
+  GenericResponse,
+  Completion,
+} from "@wpw-library/common";
 
 export const insertKpi = async (req: Request, res: Response) => {
   const {
@@ -43,7 +45,7 @@ export const insertKpi = async (req: Request, res: Response) => {
     console.log(green(`[KPI SERVICE][SAVING KPI][SUCCESSFULLY SAVE KPI]`));
   } catch (error) {
     red(`[KPI SERVICE][SAVING KPI][UNSUCCESSFULLY SAVING KPI]`);
-    throw new DatabaseInsertionError(kpi);
+    throw new DatabaseInsertionError(newKpi, "KPI SERVICE", newKpi);
   }
 
   const response = new GenericResponse(
