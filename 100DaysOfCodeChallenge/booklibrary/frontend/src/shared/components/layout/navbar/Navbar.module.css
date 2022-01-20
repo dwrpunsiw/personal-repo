@@ -1,14 +1,29 @@
 .navigation {
   height: 100vh;
-  width: 200px;
+  width: var(--sidebar-width);
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--main-bg);
+  box-shadow: var(--box-shadow);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: var(--color-primary-100);
 }
 
-.navigation .menu {
+.navigation__logo {
   display: flex;
-  flex-direction: column;
+  height: 150px;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigation__logo > img {
+  height: 125px;
+}
+
+.navigation__tools {
+  display: flex;
+  align-items: center;
   justify-content: space-around;
 }

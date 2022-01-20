@@ -1,18 +1,22 @@
 import { Routes, Route } from "react-router-dom";
+import { Administrator } from "../views/admin/Administrator";
+import { Collections } from "../views/collections/Collections";
 
 import Dashboard from "../views/dashboard/Dashboard";
+import { Library } from "../views/library/Library";
 import Profile from "../views/profile/Profile";
+import { Settings } from "../views/settings/Settings";
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/:userId/dashboard" element={<Dashboard />} />
-      <Route path="/:userId/profile" element={<Profile />} />
-      <Route path="/:userId/collections" element={<Dashboard />} />
-      <Route path="/:userId/library" element={<Dashboard />} />
-      <Route path="/:userId/admin" element={<Dashboard />} />
-      <Route path="/:userId/settings" element={<Dashboard />} />
-      <Route path="/:userId/logout" element={<Dashboard />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/collections" element={<Collections />} />
+      <Route path="/library" element={<Library />} />
+      <Route path="/admin" element={<Administrator />} />
+      <Route path="/settings" element={<Settings />} />
+      <Route path="/logout" element={<Dashboard />} />
     </Routes>
   );
 };

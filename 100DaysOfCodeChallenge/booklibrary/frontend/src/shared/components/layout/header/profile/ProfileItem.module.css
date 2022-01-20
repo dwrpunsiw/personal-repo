@@ -1,0 +1,24 @@
+.profile__menu__item {
+  padding: 10px 0px;
+  font-weight: 600;
+}
+
+.profile__link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.profile__menu__item a > i {
+  margin-right: 20px;
+  font-size: 1.25rem;
+}
+
+.profile__menu__item a {
+  transition: color 0.3s ease 0s;
+}
+
+.profile__menu__item a:hover,
+.profile__menu__item a:hover {
+  color: var(--txt-white);
+}

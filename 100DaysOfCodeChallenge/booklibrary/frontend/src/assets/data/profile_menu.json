@@ -1,0 +1,22 @@
+[
+  {
+    "path": "/profile",
+    "icon": "bx bx-user-circle",
+    "content": "My Profile"
+  },
+  {
+    "path": "/profile/id",
+    "icon": "bx bxs-edit",
+    "content": "Edit Profile"
+  },
+  {
+    "path": "/settings",
+    "icon": "bx bxs-wrench",
+    "content": "Settings"
+  },
+  {
+    "path": "/logout",
+    "icon": "bx bxs-log-out",
+    "content": "Logout"
+  }
+]

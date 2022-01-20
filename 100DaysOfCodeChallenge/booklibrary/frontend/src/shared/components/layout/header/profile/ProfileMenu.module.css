@@ -1,0 +1,33 @@
+.profile__menu {
+  position: absolute;
+  top: var(--header-height);
+  right: 30px;
+  width: 250px;
+  background-image: linear-gradient(
+    to right,
+    var(--main-color),
+    var(--second-color)
+  );
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  box-sizing: 0 5px 25px rgba(0, 0, 0, 0.1);
+  transition: visibility 0s 0.5s, opacity 0.5s linear;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.active {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s linear;
+}
+
+.profile__info h3 {
+  width: 100%;
+  text-align: center;
+  font-size: 1.25rem;
+  font-family: "Caveat";
+  padding: 20px 0;
+  font-weight: bold;
+}

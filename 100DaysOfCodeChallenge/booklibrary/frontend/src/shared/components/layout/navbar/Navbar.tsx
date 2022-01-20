@@ -1,56 +1,53 @@
 import classes from "./Navbar.module.css";
-import list_menu from "../../../../assets/data/list_menu.json";
-import user_options from "../../../../assets/data/user_options.json";
-import logoImages from "../../../../assets/images/etc/logo.png";
-import { Nav } from "react-bootstrap";
-import NavbarItem from "./NavbarItem";
-import { constructUserSpecificPath } from "../../../helpers/utils";
+import { Link, useLocation } from "react-router-dom";
 
-interface ListMenu {
-  path: string;
-  icon: string;
-  content: string;
-  priviledge: boolean;
-}
+import NavbarItem from "./NavbarItem";
+import NavbarTools from "./NavbarTools";
+
+import list_menu from "../../../../assets/data/list_menu.json";
+import list_tools from "../../../../assets/data/user_options.json";
 
 const Navbar: React.FC = () => {
-  const userId = "u1";
+  const location = useLocation();
+  const activeLink = list_menu.findIndex(
+    (menu) => menu.path === location.pathname
+  );
+  const activeTools = list_tools.findIndex(
+    (menu) => menu.path === location.pathname
+  );
+
   return (
     <section className={classes.navigation}>
-      <div className="navigation__brand flex justify-center p-6">
-        <img src={logoImages} className="w-20" />
+      <div className={classes.navigation__logo}>
+        <img alt="LOGO" />
       </div>
-      <div className="navigation__menu">
-        <Nav>
-          {list_menu.map((menu: ListMenu) => {
-            const specificPath = constructUserSpecificPath(userId, menu.path);
-            return (
+      <div className={classes.navigation__menu}>
+        {list_menu.map((menu, index) => {
+          return (
+            <Link to={menu.path} key={index}>
               <NavbarItem
-                key={menu.path}
-                path={specificPath}
                 icon={menu.icon}
                 content={menu.content}
                 priviledge={menu.priviledge}
+                active={activeLink === index}
               />
-            );
-          })}
-        </Nav>
+            </Link>
+          );
+        })}
       </div>
-      <div className="navigation_misc">
-        <Nav>
-          {user_options.map((menu: ListMenu) => {
-            const specificPath = constructUserSpecificPath(userId, menu.path);
-            return (
-              <NavbarItem
+      <div className={classes.navigation__tools}>
+        {list_tools.map((menu, index) => {
+          return (
+            <Link to={menu.path} key={index}>
+              <NavbarTools
                 key={menu.path}
-                path={specificPath}
                 icon={menu.icon}
-                content={menu.content}
                 priviledge={menu.priviledge}
+                active={activeTools === index}
               />
-            );
-          })}
-        </Nav>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );

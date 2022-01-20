@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+
+import "./assets/boxicons-2.1.1/css/boxicons.min.css";
+import "./assets/css/index.css";
 
 import App from "./pages/App";
 

@@ -1,27 +1,21 @@
-import { Nav } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-
-import "./NavbarItem.css";
+import classes from "./NavbarItem.module.css";
 
 interface Props {
-  path: string;
   icon: string;
   content: string;
   priviledge: boolean;
+  active: boolean;
 }
 
-const NavbarItem: React.FC<Props> = ({ path, icon, content, priviledge }) => {
+const NavbarItem: React.FC<Props> = ({ icon, content, priviledge, active }) => {
+  const activeClass = active ? `${classes.active}` : ``;
   return (
-    <Nav.Item className="px-5 py-3">
-      <NavLink
-        to={path}
-        className={(isActive) =>
-          "nav-link " + (isActive ? "selected " : "") + "font-medium"
-        }
-      >
-        {content}
-      </NavLink>
-    </Nav.Item>
+    <div className={classes.navigation__item}>
+      <div className={classes.navigation__item__inner + " " + activeClass}>
+        <i className={icon}></i>
+        <span>{content}</span>
+      </div>
+    </div>
   );
 };
 

@@ -1,25 +1,25 @@
 [
   {
     "path": "/dashboard",
-    "icon": "",
+    "icon": "bx bxs-dashboard",
     "content": "Dashboard",
     "priviledge": false
   },
   {
     "path": "/profile",
-    "icon": "",
+    "icon": "bx bxs-smile",
     "content": "Profile",
     "priviledge": false
   },
   {
     "path": "/collections",
-    "icon": "",
+    "icon": "bx bxs-collection",
     "content": "Collections",
     "priviledge": false
   },
   {
     "path": "/library",
-    "icon": "",
+    "icon": "bx bxs-book-content",
     "content": "Library",
     "priviledge": false
   }

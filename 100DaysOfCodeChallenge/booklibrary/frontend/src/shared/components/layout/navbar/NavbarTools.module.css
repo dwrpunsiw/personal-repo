@@ -1,0 +1,24 @@
+.navigation__item {
+  padding: 0px;
+}
+
+.navigation__item__inner {
+  padding: 15px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: color 0.3s ease 0s;
+}
+
+.navigation__item__inner > i {
+  font-size: 1.5rem;
+}
+
+.navigation__item__inner > i:hover {
+  color: var(--main-color);
+}
+
+.active {
+  color: var(--main-color);
+}

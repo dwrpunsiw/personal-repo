@@ -1,20 +1,17 @@
 [
   {
     "path": "/admin",
-    "icon": "",
-    "content": "Admin",
+    "icon": "bx bxs-server",
     "priviledge": true
   },
   {
     "path": "/settings",
-    "icon": "",
-    "content": "Settings",
+    "icon": "bx bxs-wrench",
     "priviledge": false
   },
   {
     "path": "/logout",
-    "icon": "",
-    "content": "Log Out",
+    "icon": "bx bxs-log-out",
     "priviledge": false
   }
 ]

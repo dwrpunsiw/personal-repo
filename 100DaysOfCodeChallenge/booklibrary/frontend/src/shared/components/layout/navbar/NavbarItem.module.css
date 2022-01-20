@@ -1,0 +1,38 @@
+.navigation__item {
+  padding: 0 20px;
+}
+
+.navigation__item__inner {
+  padding: 15px 25px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  transition: color 0.3s ease 0s;
+}
+
+.navigation__item__inner > span {
+  text-transform: capitalize;
+}
+
+.navigation__item__inner > i {
+  margin-right: 10px;
+  font-size: 1.5rem;
+}
+
+.navigation__item__inner:hover {
+  color: var(--main-color);
+}
+
+.active {
+  border-radius: var(--border-radius);
+  background-image: linear-gradient(
+    to right,
+    var(--main-color),
+    var(--second-color)
+  );
+  color: var(--txt-white);
+}
+
+.active:hover {
+  color: var(--txt-white);
+}

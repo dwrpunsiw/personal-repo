@@ -7,11 +7,13 @@ import classes from "./Layout.module.css";
 const Layout: React.FC = () => {
   return (
     <Router>
-      <section className={classes.main}>
+      <section className={classes.layout}>
         <Navbar />
-        <main className="w-full">
+        <main className={classes.layout__content}>
           <Header />
-          <AppRoutes />
+          <div className={classes.main}>
+            <AppRoutes />
+          </div>
         </main>
       </section>
     </Router>
