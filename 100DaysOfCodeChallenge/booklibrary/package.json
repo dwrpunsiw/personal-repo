@@ -1,0 +1,13 @@
+{
+  "name": "booklibrary",
+  "version": "1.0.0",
+  "description": "Root BookLibrary Application",
+  "main": "index.js",
+  "scripts": {
+    "bookapp": "concurrently \"npm run start --prefix ./backend\" \"npm run start --prefix ./frontend\"",
+    "start": "concurrently \"npm run bookapp\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wisnu Prasojo Widianto",
+  "license": "ISC"
+}

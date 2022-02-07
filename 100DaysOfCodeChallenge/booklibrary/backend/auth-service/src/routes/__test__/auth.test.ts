@@ -7,6 +7,7 @@ it("returns a 201 on successful signup", async () => {
   return request(app)
     .post("/api/auth/signup")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
@@ -22,6 +23,7 @@ it("returns a 201 on successful signup and cookie", async () => {
   const res = await request(app)
     .post("/api/auth/signup")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
@@ -39,6 +41,7 @@ it("returns a 400 on missing field in request body on sign up", async () => {
   return request(app)
     .post("/api/auth/signup")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
@@ -54,6 +57,7 @@ it("returns a 409, user already exists", async () => {
   await request(app)
     .post("/api/auth/signup")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
@@ -67,6 +71,7 @@ it("returns a 409, user already exists", async () => {
   await request(app)
     .post("/api/auth/signup")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
@@ -82,6 +87,7 @@ it("returns a 201 on successful signin", async () => {
   await request(app)
     .post("/api/auth/signup")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
@@ -95,9 +101,14 @@ it("returns a 201 on successful signin", async () => {
   await request(app)
     .post("/api/auth/signin")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
+      location: {
+        lat: "-6.924850",
+        lng: "107.674900",
+      },
     })
     .expect(200);
 });
@@ -106,6 +117,7 @@ it("returns a 201 on successful signin", async () => {
   await request(app)
     .post("/api/auth/signup")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
@@ -119,11 +131,18 @@ it("returns a 201 on successful signin", async () => {
   const res = await request(app)
     .post("/api/auth/signin")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
+      location: {
+        lat: "-6.924850",
+        lng: "107.674900",
+      },
     })
     .expect(200);
+
+  console.log(res);
 
   expect(res.get("Set-Cookie")).toBeDefined();
 });
@@ -132,9 +151,14 @@ it("returns a 400 on missing field in request body on sign in", async () => {
   return request(app)
     .post("/api/auth/signin")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       //   password: "P@ssword123!",
+      location: {
+        lat: "-6.924850",
+        lng: "107.674900",
+      },
     })
     .expect(400);
 });
@@ -143,6 +167,7 @@ it("returns a 401 on signin with invalid credentials", async () => {
   await request(app)
     .post("/api/auth/signup")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
@@ -156,6 +181,7 @@ it("returns a 401 on signin with invalid credentials", async () => {
   await request(app)
     .post("/api/auth/signin")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword",
@@ -163,6 +189,10 @@ it("returns a 401 on signin with invalid credentials", async () => {
       firstname: "Wisnu",
       lastname: "Widianto",
       birthdate: "1995-01-29",
+      location: {
+        lat: "-6.924850",
+        lng: "107.674900",
+      },
     })
     .expect(401);
 });
@@ -173,6 +203,7 @@ it("returns a 205 on successful log out", async () => {
   const res = await request(app)
     .post("/api/auth/signout")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .set("Cookie", cookie)
     .send({
       username: "wisnuprsj",
@@ -193,6 +224,7 @@ it("returns a 200 on successfully authenticate", async () => {
   await request(app)
     .post("/api/auth/authenticate")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .set("Cookie", cookie)
     .send({})
     .expect(200);

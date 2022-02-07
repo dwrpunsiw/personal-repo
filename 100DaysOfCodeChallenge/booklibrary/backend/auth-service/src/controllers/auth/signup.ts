@@ -58,7 +58,7 @@ export const signup = async (req: Request, res: Response) => {
       },
     };
     throw new ConflictDataError(
-      "Corresponding username not found",
+      "Corresponding username already exists",
       "AUTH SERVICE",
       kpi
     );

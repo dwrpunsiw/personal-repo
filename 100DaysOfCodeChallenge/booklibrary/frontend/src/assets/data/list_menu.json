@@ -22,5 +22,11 @@
     "icon": "bx bxs-book-content",
     "content": "Library",
     "priviledge": false
+  },
+  {
+    "path": "/friends",
+    "icon": "bx bxl-meta",
+    "content": "Friends",
+    "priviledge": false
   }
 ]

@@ -16,10 +16,15 @@
   height: 150px;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .navigation__logo > img {
-  height: 125px;
+  height: 150px;
+}
+
+.navigation__menu {
+  flex-grow: 1;
 }
 
 .navigation__tools {

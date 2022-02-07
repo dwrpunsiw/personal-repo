@@ -8,10 +8,5 @@
     "path": "/settings",
     "icon": "bx bxs-wrench",
     "priviledge": false
-  },
-  {
-    "path": "/logout",
-    "icon": "bx bxs-log-out",
-    "priviledge": false
   }
 ]

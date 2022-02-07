@@ -30,4 +30,5 @@
   font-family: "Caveat";
   padding: 20px 0;
   font-weight: bold;
+  color: var(--txt-white);
 }

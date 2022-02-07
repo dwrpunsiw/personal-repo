@@ -35,6 +35,7 @@ global.signin = async () => {
   const res = await request(app)
     .post("/api/auth/signup")
     .set("requestid", "9f662698-3e95-4912-9143-2c2db4a1c591")
+    .set("touchpoint", "UNIT TEST")
     .send({
       username: "wisnuprsj",
       password: "P@ssword123!",
@@ -42,6 +43,10 @@ global.signin = async () => {
       firstname: "Wisnu",
       lastname: "Widianto",
       birthdate: "1995-01-29",
+      location: {
+        lat: "-6.924850",
+        lng: "107.674900",
+      },
     })
     .expect(201);
 

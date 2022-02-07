@@ -4,7 +4,7 @@
   "description": "Root Backend Book Library Application Services",
   "main": "index.js",
   "scripts": {
-    "backend": "concurrently \"npm run dev --prefix ./auth-service\" \"npm run dev --prefix ./kpi-service\" \"npm run dev --prefix ./user-service\"",
+    "backend": "concurrently \"npm run dev --prefix ./auth-service\" \"npm run dev --prefix ./kpi-service\"",
     "start": "concurrently \"npm run backend\" ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
